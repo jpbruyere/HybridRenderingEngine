@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.7)
 project(hybridRenderer)
 
-set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/modules")
+#set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/modules")
 
 if(WIN32)
   if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
@@ -17,10 +17,10 @@ endif()
 find_package(OpenMP REQUIRED)
 
 find_package(SDL2 REQUIRED)
-include_directories(${SDL2_INCLUDE_DIR} include libs)
+include_directories(${SDL2_INCLUDE_DIRS} include libs)
 
 find_package(ASSIMP REQUIRED)
-include_directories(${ASSIMP_INCLUDE_DIR} include libs )
+include_directories(${ASSIMP_INCLUDE_DIRS} include libs )
 
 # Some useful compiler flags
 #-fopt-info-vec-all -xCORE-AVX2 -no-prec-sqrt -g -ffast-math -static -static-libgcc -static-libstdc++ 
@@ -33,8 +33,7 @@ add_executable(hybridRenderer ${ALL_SRC_FILES})
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
 set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS}")
 set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS}")
-target_link_libraries(hybridRenderer ${SDL2_LIBRARY})
-target_link_libraries(hybridRenderer ${ASSIMP_LIBRARY})
+target_link_libraries(hybridRenderer PUBLIC ${SDL2_LIBRARIES} ${ASSIMP_LIBRARIES} ${CMAKE_DL_LIBS})
 
 if(WIN32)
     set_target_properties(hybridRenderer PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/build")
